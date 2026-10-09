@@ -78,6 +78,7 @@ function Fixture.record(core: any): Recorder
 			core:step(step)
 			elapsed += step
 			for _, event in core:drainEvents() do
+				event.t = core.elapsed
 				table.insert(self.events, event)
 			end
 		end
@@ -92,6 +93,7 @@ function Fixture.record(core: any): Recorder
 			core:step(step)
 			elapsed += step
 			for _, event in core:drainEvents() do
+				event.t = core.elapsed
 				table.insert(self.events, event)
 			end
 		end

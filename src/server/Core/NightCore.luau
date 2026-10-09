@@ -287,7 +287,7 @@ local function tickOnce(self: Core, tick: number)
 	handlePowerEvents(self, self.power:step(tick))
 
 	local brain = self.brain
-	local targetNode = if brain.transit == nil then brain.node else nil
+	local targetNode = if brain.transit == nil and brain.state ~= "Dormant" then brain.node else nil
 	for _, event in self.surveillance:step(tick, self.elapsed, targetNode) do
 		if event.kind == "FeedJammed" then
 			push(self, { kind = "FeedJammed", cameraId = event.cameraId, duration = event.duration })

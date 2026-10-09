@@ -17,8 +17,23 @@ local SeededRandom = {}
 SeededRandom.__index = SeededRandom
 
 --//Functions//--
+local function multiply32(a: number, b: number): number
+	local low = bit32.band(a, 0xFFFF)
+	local high = bit32.rshift(a, 16)
+	return (low * b + bit32.lshift(bit32.band(high * b, 0xFFFF), 16)) % 4294967296
+end
+
+local function mix(value: number): number
+	local h = bit32.band(math.floor(value), 0xFFFFFFFF)
+	h = bit32.bxor(h, bit32.rshift(h, 16))
+	h = multiply32(h, 0x85EBCA6B)
+	h = bit32.bxor(h, bit32.rshift(h, 13))
+	h = multiply32(h, 0xC2B2AE35)
+	return bit32.bxor(h, bit32.rshift(h, 16))
+end
+
 function SeededRandom.new(seed: number): Generator
-	local state = bit32.band(math.floor(seed), 0xFFFFFFFF)
+	local state = mix(seed + 0x9E3779B9)
 	if state == 0 then
 		state = 0x2545F491
 	end

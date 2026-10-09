@@ -9,6 +9,5 @@ require("./suites/SurveillanceModel")
 require("./suites/WatcherBrain")
 require("./suites/NightStateMachine")
 require("./suites/NightCore")
-require("./suites/Simulation")
 
 Harness.exit(Harness.run())
